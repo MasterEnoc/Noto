@@ -1,0 +1,165 @@
+/* Global properties*/
+
+* {
+    box-sizing: border-box;
+}
+
+body, html{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font: menu;
+}
+
+
+.layout{
+    display: flex;
+}
+
+textarea{
+    resize: none;
+}
+
+.activeImg{
+    filter: invert(100%) sepia(0%) saturate(7456%) hue-rotate(315deg) brightness(113%) contrast(100%);
+}
+
+.header{
+    margin: auto;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 17px;
+}
+
+.border{
+    border: 1px solid black;
+    border-top: 0;
+}
+
+.active{
+    color: white;
+    background-color: #969696;
+}
+
+/* Left area: file browser */
+#file-browser{
+    width: 15%;
+    min-height: 100vh;
+    background-color: #b3b3b3;
+    word-wrap: normal;
+}
+
+#fb-title{
+    display: flex;
+    background-color: #817E7E;
+    min-height: 5.5vh;
+    width: 100%;
+}
+
+#fb-files{
+    height: 97.8vh;
+    overflow: scroll;
+}
+
+#browser-name{
+    width: 70%;
+    cursor: default;
+}
+
+#browser-img{
+    width: 30%;
+    cursor: pointer;
+}
+
+#files-img:hover{ 
+    filter: invert(100%) sepia(0%) saturate(7456%) hue-rotate(315deg) brightness(113%) contrast(100%);
+}
+
+#browser-img:hover #files-img{
+    filter: invert(100%) sepia(0%) saturate(7456%) hue-rotate(315deg) brightness(113%) contrast(100%);
+}
+
+
+#file-area{
+    width: 100%;
+}
+
+.file{
+    vertical-align: middle;
+    margin: auto;
+    width: 100%;
+    height: 25px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.file:hover{
+    background-color: #969696;
+    color: white;
+}
+
+/* Right area: edit file*/
+#title-bar{
+    display: flex;
+    width: 100%;
+    background-color: #6e6d6d;
+    min-height: 5.5vh;
+    text-align: center;
+    border-left: 0;
+}
+
+#date{
+    width: 33%;
+    cursor: default;
+}
+
+#file-name{
+    width: 33%;
+}
+
+#customTxt{
+    width: 33%;
+}
+
+#edit-area{
+    min-height: 96vh;
+    width: 100%;
+    box-shadow: 0px 0px 10px 1px black;
+}
+
+#editor{
+    width: 100%;
+    min-height: 97.8vh;
+    overflow: scroll;
+    flex-grow: 1;
+    outline: none;
+    border: none;
+    background-color: #e6e6e6;
+    padding: 1ch 0 1ch 1ch;
+}
+
+
+
+/* ScrollBars*/
+
+::-webkit-scrollbar {
+    width: 1ch;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(46, 48, 48, 0.3); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(46, 48, 48, 0.3); 
+}
