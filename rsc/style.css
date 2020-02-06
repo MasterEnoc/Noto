@@ -54,13 +54,14 @@ textarea{
 #fb-title{
     display: flex;
     background-color: #817E7E;
-    min-height: 5.5vh;
+    height: 5.2vh;
     width: 100%;
 }
 
 #fb-files{
-    height: 97.8vh;
+    min-height: 97vh;
     overflow: scroll;
+    contain: strict;
 }
 
 #browser-name{
@@ -93,6 +94,7 @@ textarea{
     height: 25px;
     cursor: pointer;
     text-align: center;
+    word-wrap: break-word;
 }
 
 .file:hover{
@@ -105,7 +107,7 @@ textarea{
     display: flex;
     width: 100%;
     background-color: #6e6d6d;
-    min-height: 5.5vh;
+    height: 5.2vh;
     text-align: center;
     border-left: 0;
 }
@@ -131,7 +133,7 @@ textarea{
 
 #editor{
     width: 100%;
-    min-height: 97.8vh;
+    min-height: 96.2vh;
     overflow: scroll;
     flex-grow: 1;
     outline: none;
@@ -161,5 +163,5 @@ textarea{
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(46, 48, 48, 0.3); 
+    background: rgba(46, 48, 48, 0.1); 
 }

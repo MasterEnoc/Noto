@@ -1,14 +1,16 @@
-const { BrowserWindow, app, Menu, dialog} = require('electron');
-const {readFileSync} = require('fs');
+const { BrowserWindow, app, Menu, dialog, ipcMain} = require('electron');
+const {readFileSync, writeFileSync} = require('fs');
 
 let win;
 
 
-let menu = [
+const menu = [
     {
         label: '&File', submenu: [
             { label: 'Open Folder', click: 'open'},
-            {label: 'Open File', click: openFile}
+            {label: 'Open File', click: openFile},
+            {label: 'Save As', click: saveAsFile},
+            {label: 'Save'}
         ]
     },
     { label: '&Edit' },
@@ -44,13 +46,25 @@ app.on('ready', () => {
     })
 })
 
+// sends filepath to openFile.js
 async function openFile(){
     let file =  await dialog.showOpenDialog({filters: [{name: 'documents', extensions: ['docx', 'txt']}]},{properties: ['openFile']})
 
-    try {
-        let data = readFileSync(file.filePaths[0]).toString();
-        win.webContents.send('load-file', data, file.filePaths[0]);
-    } catch (error) {
-        console.log(error);
+    if (!file.canceled){
+        try {
+            let data = readFileSync(file.filePaths[0]).toString();
+            win.webContents.send('load-file', data, file.filePaths[0]);
+        } catch (error) {
+            console.log(error);
+        }
     }
+}
+
+// waits the text data from saveFile.js
+async function saveAsFile(){
+    let file = await dialog.showSaveDialog({filters: [{name: 'Documents', extensions: ['docx', 'txt']}]})
+    win.webContents.send('request-text');
+    ipcMain.once('got-text', (event, value)=> {
+        writeFileSync(file.filePath, value);
+    })
 }
