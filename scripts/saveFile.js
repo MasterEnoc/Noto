@@ -3,4 +3,3 @@ ipcRenderer.on('request-text', (event)=> {
     let data = text.value;
     event.sender.send('got-text', data);
 })
-

@@ -3,7 +3,7 @@ const {statSync, readdirSync} = require('fs');
 
 ipcRenderer.on('load-file', (event, data, file)=>{
     let textArea = document.querySelector('#editor');
-    textArea.innerHTML = data; 
+    textArea.value = data; 
 
     let namePattern = new RegExp(/[\w\d]+.(txt|docx)/i);
     let name = namePattern.exec(file);
