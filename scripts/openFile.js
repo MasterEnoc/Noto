@@ -1,5 +1,5 @@
 const {ipcRenderer} = require('electron');
-const {statSync} = require('fs');
+const {statSync, readdirSync} = require('fs');
 
 ipcRenderer.on('load-file', (event, data, file)=>{
     let textArea = document.querySelector('#editor');
@@ -18,6 +18,16 @@ ipcRenderer.on('load-file', (event, data, file)=>{
     let bdate = stringDate.slice(0,24)
     let dateBox = document.querySelector('#date');
     dateBox.innerHTML=bdate;
+})
+
+ipcRenderer.on('load-folder', (event, folder)=>{
+    let fileBrowser = document.querySelector('#fb-files');
+    let files = readdirSync(folder.filePaths[0]);
+    files.map((file) => {
+        let element = createFileElement(file);
+        element.id = folder.filePaths[0]+file
+        fileBrowser.appendChild(element);
+    })
 })
 
 function createFileElement(innerText){
