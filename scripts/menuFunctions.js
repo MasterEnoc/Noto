@@ -16,6 +16,7 @@ async function openFile(){
     }
 }
 
+// sends filepaths to openFile.js
 async function openFolder(){
     let folder = await dialog.showOpenDialog({properties: ['openDirectory']});
 
@@ -44,6 +45,7 @@ function saveFile(){
         })
     }
 }
+//
 
 module.exports = {
     'openFile':openFile,

@@ -1,5 +1,6 @@
-const { BrowserWindow, app, Menu} = require('electron');
-const {openFile, openFolder, saveAsFile, saveFile} = require('./scripts/menuFunctions')
+const { BrowserWindow, app, Menu, ipcMain} = require('electron');
+const {openFile, openFolder, saveAsFile, saveFile} = require('./scripts/menuFunctions');
+const {statSync} = require('fs');
 
 global.win;
 global.currentPath = '';
@@ -11,7 +12,7 @@ const menu = [
             {label: 'Open Folder', click: openFolder},
             {label: 'Open File', click: openFile},
             {label: 'Save As', click: saveAsFile},
-            {label: 'Save', click: currentPath ? saveFile:saveAsFile}
+            {label: 'Save', click: saveFile}
         ]
     },
     { label: '&Edit' },
@@ -45,4 +46,8 @@ app.on('ready', () => {
     global.win.on('closed', () => {
         global.win = null;
     })
+})
+
+ipcMain.on('change-currentPath', (event, path) => {
+    global.currentPath = path;
 })

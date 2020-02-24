@@ -1,3 +1,5 @@
+const {readFileSync} = require('fs');
+
 // Animation Events
 let imageMenu = document.querySelector('#browser-img');
 imageMenu.addEventListener('click', () => {
@@ -16,6 +18,7 @@ imageMenu.addEventListener('click', () => {
     }    
 });
 
+// Files handling event
 let fileItems = document.querySelector('#fb-files');
 fileItems.addEventListener('click', (event) => {
     let files = Array.from(document.getElementsByClassName('file'));
@@ -29,3 +32,18 @@ fileItems.addEventListener('click', (event) => {
         event.target.className = 'file active';
     }    
 });
+
+fileItems.addEventListener('click',(event)=>{
+    if (event.target.id){
+        let path = event.target.id;
+
+        let data = readFileSync(path);
+        let editor = document.querySelector('#editor');
+        editor.value = data;
+        ipcRenderer.send('change-currentPath', path);
+
+        retrieveBirthtime(path);
+
+        retrieveName(path);
+    }
+})
