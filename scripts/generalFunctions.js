@@ -1,4 +1,4 @@
-const {statSync} = require('fs');
+const {statSync, readFileSync} = require('fs');
 const {basename} = require('path')
 
 function createElement(innerText='', tag, className='', id=''){
@@ -21,15 +21,26 @@ function retrieveBirthtime(file){
 }
 
 function retrieveName(path){
-    // let namePattern = new RegExp(/[\w\d]+.(txt|docx)/i);
     let name = basename(path);
     let nameBox = document.querySelector('#file-name');
     nameBox.innerHTML = name;
     return name;
 }
 
+function retrieveReminder(file){
+    let reminderData = document.querySelector('#customTxt');
+    jsonReminder = JSON.parse(readFileSync('reminders.json'));
+
+    if (jsonReminder.hasOwnProperty(basename(file))){
+        reminderData.innerHTML = jsonReminder[basename(file)];
+    } else {
+        reminderData.innerHTML = '';
+    }
+}
+
 module.exports = {
     'createElement': createElement,
     'retrieveBirthtime':retrieveBirthtime,
-    'retrieveName':retrieveName
+    'retrieveName':retrieveName,
+    'retrieveReminder':retrieveReminder
 };

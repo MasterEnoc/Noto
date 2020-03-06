@@ -20,6 +20,7 @@ imageMenu.addEventListener('click', () => {
 
 // Files handling event
 let fileItems = document.querySelector('#fb-files');
+
 fileItems.addEventListener('click', (event) => {
     let files = Array.from(document.getElementsByClassName('file'));
     files.map((element) => {
@@ -45,5 +46,7 @@ fileItems.addEventListener('click',(event)=>{
         retrieveBirthtime(path);
 
         retrieveName(path);
+
+        retrieveReminder(path);
     }
 })

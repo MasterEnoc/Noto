@@ -1,5 +1,6 @@
 const {dialog, ipcMain} = require('electron');
-const {readFileSync, writeFileSync} = require('fs');
+const {readFileSync, writeFile, writeFileSync} = require('fs');
+const {basename} = require('path');
 
 // sends filepath to openFile.js
 async function openFile(){
@@ -30,8 +31,10 @@ async function saveAsFile(){
     let file = await dialog.showSaveDialog({filters: [{name: 'Documents', extensions: ['docx', 'txt']}]})
     if (!file.canceled){
         win.webContents.send('request-text');
-        ipcMain.once('got-text', (event, value)=> {
-            writeFileSync(file.filePath, value);
+        ipcMain.once('got-text', (event, value, reminderData)=> {
+            global.reminders[basename(file.filePath)] = reminderData;
+            writeFile(file.filePath, value, (err)=>{});
+            writeFile('reminders.json',JSON.stringify(global.reminders), (err)=>{});
         })
         global.currentPath=file.filePath;
     }
@@ -40,16 +43,36 @@ async function saveAsFile(){
 function saveFile(){
     if (global.currentPath){
         win.webContents.send('request-text');
-        ipcMain.once('got-text', (event, value)=>{
-            writeFileSync(global.currentPath, value);
+        ipcMain.once('got-text', (event, value, reminderData)=>{
+            global.reminders[basename(global.currentPath)] = reminderData;
+            writeFile(global.currentPath, value, (err)=> {});  
+            writeFile('reminders.json',JSON.stringify(global.reminders), (err)=>{});
         })
     }
 }
 //
 
+function emptyJson(){
+    writeFile('reminders.json', '', (err) => {})
+    global.reminders = {};
+}
+
+function emptyThisReminder(){
+    try {
+        let json = JSON.parse(readFileSync('./reminders.json'));
+        delete json[basename(global.currentPath)];
+        writeFileSync('reminders.json', JSON.stringify(json));
+        global.reminders = json;
+    } catch (error) {
+           
+    }
+}
+
 module.exports = {
     'openFile':openFile,
     'openFolder':openFolder,
     'saveAsFile':saveAsFile,
-    'saveFile':saveFile
+    'saveFile':saveFile,
+    'emptyJson':emptyJson,
+    'emptyThisReminder':emptyThisReminder
 }

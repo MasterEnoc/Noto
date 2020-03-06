@@ -1,10 +1,22 @@
 const { BrowserWindow, app, Menu, ipcMain} = require('electron');
-const {openFile, openFolder, saveAsFile, saveFile} = require('./scripts/menuFunctions');
-const {statSync} = require('fs');
+const {openFile, openFolder, saveAsFile, emptyJson, saveFile, emptyThisReminder} = require('./scripts/menuFunctions');
+const {stat, writeFile, readFileSync} = require('fs');
 
 global.win;
 global.currentPath = '';
+global.reminders = {};
 
+stat('./reminders.json',(err)=> {
+    if (err){
+        writeFile('./reminders.json','', ()=>'');
+    }
+});
+
+try {
+    global.reminders = JSON.parse(readFileSync('reminders.json'));
+} catch (error) {
+    
+}
 
 const menu = [
     {
@@ -18,7 +30,7 @@ const menu = [
     { label: '&Edit' },
     {
         label: '&Settings', submenu: [
-            { label: 'quit', role: 'quit' }, { label: 'reload Noto', role: 'reload' }, { label: 'Dev Tools', role: 'toggleDevTools' }
+            { label: 'Quit', role: 'quit' }, { label: 'Reload Noto', role: 'reload' }, { label: 'Dev Tools', role: 'toggleDevTools' }, {label: 'Empty reminders', click:emptyJson}, {label:'Empty this reminder', click:emptyThisReminder}
         ]
     },
     { label: 'Automation' }
