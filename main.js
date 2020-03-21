@@ -5,6 +5,7 @@ const {stat, writeFile, readFileSync} = require('fs');
 global.win;
 global.currentPath = '';
 global.reminders = {};
+global.folderPath= '';
 
 stat('./reminders.json',(err)=> {
     if (err){
@@ -30,10 +31,13 @@ const menu = [
     { label: '&Edit' },
     {
         label: '&Settings', submenu: [
-            { label: 'Quit', role: 'quit' }, { label: 'Reload Noto', role: 'reload' }, { label: 'Dev Tools', role: 'toggleDevTools' }, {label: 'Empty reminders', click:emptyJson}, {label:'Empty this reminder', click:emptyThisReminder}
+            { label: 'Quit', role: 'quit' }, { label: 'Reload Noto', role: 'reload' }, { label: 'Dev Tools', role: 'toggleDevTools' }
         ]
     },
-    { label: 'Automation' }
+    { label: '&Reminders', submenu: [
+        {label: 'Empty reminders', click:emptyJson}, {label:'Empty this reminder', click:emptyThisReminder}
+        ]
+    }
 ];
 
 Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
