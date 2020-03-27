@@ -4,7 +4,7 @@ const {basename, dirname, sep} = require('path');
 
 // sends filepath to openFile.js
 async function openFile(){
-    let file =  await dialog.showOpenDialog({filters: [{name: 'documents', extensions: ['docx', 'txt']}],properties: ['openFile']})
+    let file =  await dialog.showOpenDialog({filters: [{name: 'documents', extensions: ['txt']},{name: 'All files', extensions: ['*']}],properties: ['openFile']})
 
     if (!file.canceled){
         try {
@@ -21,18 +21,18 @@ async function openFile(){
 // sends filepaths to openFile.js
 async function openFolder(){
     let folder = await dialog.showOpenDialog({properties: ['openDirectory']});
-
     if (!folder.canceled){
-        win.webContents.send('load-folder', folder);
-        global.folderPath = folder.filePaths[0];
+        let path = folder.filePaths[0];
+        win.webContents.send('load-folder', path);
+        global.folderPath = path;
     }
 }
 
 // waits the text data from saveFile.js
 async function saveAsFile(){
-    let file = await dialog.showSaveDialog({filters: [{name: 'Documents', extensions: ['docx', 'txt']}]})
+    let file = await dialog.showSaveDialog()
     if (!file.canceled){
-        if (String(basename(file.filePath)).match(/[^\w.-]/)){
+        if (String(basename(file.filePath)).match(/[^\w._-]/)){
             win.webContents.send('filename-error');
         } else {
             win.webContents.send('request-text');
@@ -59,6 +59,7 @@ function saveFile(){
                     win.webContents.send('filename-error');
                 } else {
                     writeFile(global.folderPath+sep+fileName, value, (err)=> {});  
+                    win.webContents.send('load-folder', global.folderPath);
                 }
             }
             writeFile('reminders.json',JSON.stringify(global.reminders), (err)=>{});
