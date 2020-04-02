@@ -1,5 +1,5 @@
 const {ipcRenderer} = require('electron');
-const {readdirSync} = require('fs');
+const {readdirSync, statSync} = require('fs');
 const {sep} = require('path');
 const {retrieveBirthtime, createElement, retrieveName, retrieveReminder} = require('./scripts/generalFunctions');
 
@@ -35,7 +35,10 @@ ipcRenderer.on('load-folder', (event, folder)=>{
     let fileBrowser = document.querySelector('#fb-files');
     let files = readdirSync(folder);
     files.map((file) => {
-        let element = createElement(file, 'div', 'file', folder+sep+file);
-        fileBrowser.appendChild(element);
+        let fileStat = statSync(folder+sep+file);
+        if (!fileStat.isDirectory()){
+            let element = createElement(file, 'div', 'file', folder+sep+file);
+            fileBrowser.appendChild(element);
+        }
     })
 })

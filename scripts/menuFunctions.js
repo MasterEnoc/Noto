@@ -87,11 +87,28 @@ function emptyThisReminder(){
     }
 }
 
+async function remindersToTxt(){
+    try {
+        let json = JSON.parse(readFileSync('./reminders.json'));
+        let path = await dialog.showOpenDialog({properties: ['openDirectory']})
+        if (path.canceled){
+            throw 'Dialog canceled';
+        }
+        let entries = Object.entries(json);
+        for (let [entrie, reminder] of entries){
+            writeFile(path.filePaths[0]+sep+'reminder.txt', `${entrie}:${reminder}\n`, {flag:'a'}, (err)=>{})
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
     'openFile':openFile,
     'openFolder':openFolder,
     'saveAsFile':saveAsFile,
     'saveFile':saveFile,
     'emptyJson':emptyJson,
-    'emptyThisReminder':emptyThisReminder
+    'emptyThisReminder':emptyThisReminder,
+    'remindersToTxt':remindersToTxt
 }

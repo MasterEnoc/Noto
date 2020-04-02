@@ -1,5 +1,5 @@
 const { BrowserWindow, app, Menu, ipcMain} = require('electron');
-const {openFile, openFolder, saveAsFile, emptyJson, saveFile, emptyThisReminder} = require('./scripts/menuFunctions');
+const {openFile, openFolder, saveAsFile, emptyJson, saveFile, emptyThisReminder, remindersToTxt} = require('./scripts/menuFunctions');
 const {stat, writeFile, readFileSync} = require('fs');
 
 global.win;
@@ -35,7 +35,7 @@ const menu = [
         ]
     },
     { label: '&Reminders', submenu: [
-        {label: 'Empty reminders', click:emptyJson}, {label:'Empty this reminder', click:emptyThisReminder}
+        {label: 'Empty reminders', click:emptyJson}, {label:'Empty this reminder', click:emptyThisReminder}, {label:'Reminders to txt', click:remindersToTxt}
         ]
     }
 ];
