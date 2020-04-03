@@ -40,6 +40,7 @@ async function saveAsFile(){
                 global.reminders[basename(file.filePath)] = reminderData;
                 writeFile(file.filePath, value, (err)=>{});
                 writeFile('reminders.json',JSON.stringify(global.reminders), (err)=>{});
+                win.webContents.send('load-file', value,file.filePath);
             })
             global.currentPath=file.filePath;
             global.folderPath=dirname(file.filePath);
