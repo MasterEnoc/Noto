@@ -12,8 +12,8 @@ function createElement(innerText='', tag, className='', id=''){
     return element;
 }
 
-function retrieveBirthtime(file){
-    let date =  statSync(file);
+function retrieveBirthtime(path){
+    let date =  statSync(path);
     let stringDate = String(date.birthtime);
     let bdate = stringDate.slice(0,24)
     let dateBox = document.querySelector('#date');
@@ -27,20 +27,26 @@ function retrieveName(path){
     return name;
 }
 
-function retrieveReminder(file){
+function retrieveReminder(path){
     let reminderData = document.querySelector('#customTxt');
     jsonReminder = JSON.parse(readFileSync('reminders.json'));
 
-    if (jsonReminder.hasOwnProperty(basename(file))){
-        reminderData.innerHTML = jsonReminder[basename(file)];
+    if (jsonReminder.hasOwnProperty(basename(path))){
+        reminderData.innerHTML = jsonReminder[basename(path)];
     } else {
         reminderData.innerHTML = '';
     }
+}
+
+function changeWindowName(path){
+    let windowName = document.querySelector('title');
+    windowName.innerHTML = `Noto - ${basename(path)}`;
 }
 
 module.exports = {
     'createElement': createElement,
     'retrieveBirthtime':retrieveBirthtime,
     'retrieveName':retrieveName,
-    'retrieveReminder':retrieveReminder
+    'retrieveReminder':retrieveReminder,
+    'changeWindowName':changeWindowName
 };

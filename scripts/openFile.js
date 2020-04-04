@@ -1,7 +1,7 @@
 const {ipcRenderer} = require('electron');
 const {readdirSync, statSync} = require('fs');
 const {sep} = require('path');
-const {retrieveBirthtime, createElement, retrieveName, retrieveReminder} = require('./scripts/generalFunctions');
+const {retrieveBirthtime, createElement, retrieveName, retrieveReminder, changeWindowName} = require('./scripts/generalFunctions');
 
 ipcRenderer.on('load-file', (event, data, file)=>{
     let oldFiles = Array.from(document.getElementsByClassName('file'));
@@ -21,7 +21,8 @@ ipcRenderer.on('load-file', (event, data, file)=>{
     retrieveBirthtime(file);
 
     retrieveReminder(file);
-    
+
+    changeWindowName(file);
 })
 
 ipcRenderer.on('load-folder', (event, folder)=>{

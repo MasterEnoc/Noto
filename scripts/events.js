@@ -48,5 +48,7 @@ fileItems.addEventListener('click',(event)=>{
         retrieveName(path);
 
         retrieveReminder(path);
+
+        changeWindowName(path);
     }
 })
