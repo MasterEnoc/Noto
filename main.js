@@ -22,20 +22,34 @@ try {
 const menu = [
     {
         label: '&File', submenu: [
-            {label: 'Open Folder', click: openFolder},
-            {label: 'Open File', click: openFile},
-            {label: 'Save As', click: saveAsFile},
-            {label: 'Save', click: saveFile}
+            {label: '&Open File', click: openFile},
+            {label: 'O&pen Folder', click: openFolder},
+            {label: '&Save As', click: saveAsFile},
+            {label: 'S&ave', click: saveFile}
         ]
     },
-    { label: '&Edit' },
+    { label: '&Edit', submenu:[
+        {label:'Undo', role:'undo'},
+        {label:'Redo', role:'redo'},
+        {label:'Copy', role:'copy'},
+        {label:'Paste', role:'paste'},
+        {label:'Cut', role:'cut'},
+        {label:'Move left', accelerator:'Ctrl+h'},
+        {label:'Move down', accelerator:'Ctrl+j'},
+        {label:'Move up', accelerator:'Ctrl+k'},
+        {label:'Move right', accelerator:'Ctrl+l'}
+    ]},
     {
         label: '&Settings', submenu: [
-            { label: 'Quit', role: 'quit' }, { label: 'Reload Noto', role: 'reload' }, { label: 'Dev Tools', role: 'toggleDevTools' }
+            { label: 'Quit', role: 'quit' },
+            { label: 'Reload Noto', role: 'reload' },
+            { label: 'Dev Tools', role: 'toggleDevTools' }
         ]
     },
     { label: '&Reminders', submenu: [
-        {label: 'Empty reminders', click:emptyJson}, {label:'Empty this reminder', click:emptyThisReminder}, {label:'Reminders to txt', click:remindersToTxt}
+        {label: 'Empty reminders', click:emptyJson},
+        {label:'Empty this reminder', click:emptyThisReminder},
+        {label:'Reminders to txt', click:remindersToTxt}
         ]
     }
 ];
