@@ -11,7 +11,7 @@ ipcRenderer.on('load-file', (event, data, file)=>{
     })
     
     let textArea = document.querySelector('#editor');
-    textArea.value = data; 
+    textArea.innerText = data; 
 
     let name = retrieveName(file);
 
