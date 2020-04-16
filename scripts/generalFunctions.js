@@ -29,7 +29,7 @@ function retrieveName(path){
 
 function retrieveReminder(path){
     let reminderData = document.querySelector('#customTxt');
-    jsonReminder = JSON.parse(readFileSync('reminders.json'));
+    let jsonReminder = JSON.parse(readFileSync('reminders.json'));
 
     if (jsonReminder.hasOwnProperty(basename(path))){
         reminderData.innerHTML = jsonReminder[basename(path)];

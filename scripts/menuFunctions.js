@@ -30,7 +30,7 @@ async function openFolder(){
 
 // waits the text data from saveFile.js
 async function saveAsFile(){
-    let file = await dialog.showSaveDialog()
+    let file = await dialog.showSaveDialog();
     if (!file.canceled){
         if (String(basename(file.filePath)).match(/[^\w._-]/)){
             win.webContents.send('filename-error');

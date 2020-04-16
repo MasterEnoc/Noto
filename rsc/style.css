@@ -17,7 +17,10 @@ body, html{
 }
 
 .activeImg{
-    filter: invert(100%) sepia(0%) saturate(7456%) hue-rotate(315deg) brightness(113%) contrast(100%);
+    transform: scale(1.15);
+}
+.activeImg:hover{
+    transform: scale(1.00);
 }
 
 .header{
@@ -34,45 +37,52 @@ body, html{
 
 .active{
     color: white;
-    background-color: #969696;
+    background-color: rgb(78, 80, 81);
 }
 
 /* Left area: file browser */
 #file-browser{
     width: 15vw;
-    background-color: #b3b3b3;
+    background-color: rgb(28, 30, 31);
     word-wrap: normal;
 }
 
 #fb-title{
     display: flex;
-    background-color: #817E7E;
+    background-color: rgb(28, 30, 31);
     height: 6vh;
-    width: 100%;
+    border-left: 0;
+    border-right: 0;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-color: white;
 }
 
 #fb-files{
     height: 94vh;
     overflow: auto;
+    border-left: 0;
 }
 
 #browser-name{
     width: 70%;
     cursor: default;
     user-select: none;
+    color: white;
 }
 
 #browser-img{
     width: 30%;
     cursor: pointer;
+    filter: invert(100%) sepia(0%) saturate(7456%) hue-rotate(315deg) brightness(113%) contrast(100%);
 }
 
 #files-img:hover{ 
-    filter: invert(100%) sepia(0%) saturate(7456%) hue-rotate(315deg) brightness(113%) contrast(100%);
+    transform: scale(1.15);
 }
 
 #browser-img:hover #files-img{
-    filter: invert(100%) sepia(0%) saturate(7456%) hue-rotate(315deg) brightness(113%) contrast(100%);
+    transform: scale(1.15);
 }
 
 
@@ -88,10 +98,11 @@ body, html{
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: white;
 }
 
 .file:hover{
-    background-color: #969696;
+    background-color: rgb(78, 80, 81);
     color: white;
 }
 
@@ -99,7 +110,7 @@ body, html{
 #title-bar{
     display: flex;
     width: 100%;
-    background-color: #6e6d6d;
+    background-color: rgb(28, 30, 31);
     height: 6vh;
     text-align: center;
     border-left: 0;
@@ -109,12 +120,14 @@ body, html{
 #date{
     width: 33.33%;
     cursor: default;
+    color: white;
 }
 
 #file-name{
     width: 33.33%;
     height: 4vh;
     overflow: auto;
+    color: white;
 }
 
 #customTxt{
@@ -122,6 +135,7 @@ body, html{
     height: 4vh;
     overflow: auto;
     text-align: left;
+    color: white;
 }
 
 
@@ -135,7 +149,6 @@ body, html{
     border: none;
     background-color: #e6e6e6;
     padding: 1ch 0 1ch 1ch;
-    box-shadow: 0px 0px 10px 1px black;
 }
 
 
@@ -154,10 +167,10 @@ body, html{
 /* Handle */
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: rgba(46, 48, 48, 0.3); 
+    background: rgb(118, 120, 121);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(46, 48, 48, 0.1); 
+    background: rgb(138, 150, 151); 
 }

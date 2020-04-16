@@ -22,10 +22,10 @@ try {
 const menu = [
     {
         label: '&File', submenu: [
-            {label: '&Open File', click: openFile},
-            {label: 'O&pen Folder', click: openFolder},
-            {label: '&Save As', click: saveAsFile},
-            {label: 'S&ave', click: saveFile}
+            {label: '&Open File', click: openFile, accelerator:'Ctrl+o'},
+            {label: 'O&pen Folder', click: openFolder, accelerator:'Ctrl+Shift+o'},
+            {label: '&Save As', click: saveAsFile, accelerator: 'Ctrl+Shift+s'},
+            {label: 'S&ave', click: saveFile, accelerator:'Ctrl+s'}
         ]
     },
     { label: '&Edit', submenu:[
