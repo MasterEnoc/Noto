@@ -71,13 +71,13 @@ app.on('ready', () => {
 
     global.win.on('ready-to-show', () => {
         global.win.show();
-    })
+    });
 
     global.win.on('closed', () => {
         global.win = null;
-    })
-})
+    });
+});
 
 ipcMain.on('change-currentPath', (event, path) => {
     global.currentPath = path;
-})
+});

@@ -32,13 +32,9 @@ body, html{
 
 .border{
     border: 1px solid black;
-    border-top: 0;
+    border-top: 0px;
 }
 
-.active{
-    color: white;
-    background-color: rgb(78, 80, 81);
-}
 
 /* Left area: file browser */
 #file-browser{
@@ -91,19 +87,28 @@ body, html{
 }
 
 .file{
-    vertical-align: middle;
-    margin: auto;
-    width: 100%;
     height: 25px;
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
     color: white;
+    padding-left: 10px;
 }
 
 .file:hover{
     background-color: rgb(78, 80, 81);
     color: white;
+}
+
+.fileActive{
+    height: 25px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    background-color: rgb(78, 80, 81);
+    padding-left: 3px;
+    border-left:7px solid #66A5Ad ;
 }
 
 /* Right area: edit file*/

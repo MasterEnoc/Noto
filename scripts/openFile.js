@@ -4,11 +4,15 @@ const {sep} = require('path');
 const {retrieveBirthtime, createElement, retrieveName, retrieveReminder, changeWindowName} = require('./scripts/generalFunctions');
 
 ipcRenderer.on('load-file', (event, data, file)=>{
-    let oldFiles = Array.from(document.getElementsByClassName('file'));
-    
-    oldFiles.map((file)=>{
-        file.remove();
-    })
+
+    let classes = ['file', 'fileActive'];
+    for (element of classes){
+	let oldFiles = Array.from(document.getElementsByClassName(element));
+
+	oldFiles.map((file)=>{
+            file.remove();
+	});
+    }
     
     let textArea = document.querySelector('#editor');
     textArea.innerText = data; 
@@ -16,23 +20,26 @@ ipcRenderer.on('load-file', (event, data, file)=>{
     let name = retrieveName(file);
 
     let fileBrowser = document.querySelector('#fb-files');
-    fileBrowser.appendChild(createElement(name, 'div', 'file active', file));
+    fileBrowser.appendChild(createElement(name, 'div', 'fileActive', file));
 
     retrieveBirthtime(file);
 
     retrieveReminder(file);
 
     changeWindowName(file);
-})
+});
 
 ipcRenderer.on('load-folder', (event, folder)=>{
 
-    let oldFiles = Array.from(document.getElementsByClassName('file'));
+    let classes = ['file', 'fileActive'];
+    for (element of classes){
+	let oldFiles = Array.from(document.getElementsByClassName(element));
 
-    oldFiles.map((file)=>{
-        file.remove();
-    })
-
+	oldFiles.map((file)=>{
+            file.remove();
+	});
+    }
+    
     let fileBrowser = document.querySelector('#fb-files');
     let files = readdirSync(folder);
     files.map((file) => {
@@ -41,5 +48,5 @@ ipcRenderer.on('load-folder', (event, folder)=>{
             let element = createElement(file, 'div', 'file', folder+sep+file);
             fileBrowser.appendChild(element);
         }
-    })
-})
+    });
+});

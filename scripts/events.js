@@ -28,15 +28,15 @@ imageMenu.addEventListener('click', () => {
 let fileItems = document.querySelector('#fb-files');
 
 fileItems.addEventListener('click', (event) => {
-    let files = Array.from(document.getElementsByClassName('file'));
+    let files = Array.from(document.getElementsByClassName('fileActive'));
     files.map((element) => {
-        if (element.className === 'file active'){
+        if (element.className === 'fileActive'){
             element.className = 'file';
         }
     })
 
     if (event.target.className === 'file'){
-        event.target.className = 'file active';
+        event.target.className = 'fileActive';
     }    
 });
 
