@@ -93,13 +93,19 @@ body, html{
     text-overflow: ellipsis;
     color: white;
     padding-left: 10px;
+    padding-top: 5px;
 }
 
 .file:hover{
     background-color: rgb(78, 80, 81);
-    color: white;
 }
-
+/*
+.file:hover{
+    transition-delay: 500ms;
+    width: 100%;
+    position: absolute;
+}
+*/
 .fileActive{
     height: 25px;
     cursor: pointer;
@@ -108,7 +114,31 @@ body, html{
     color: white;
     background-color: rgb(78, 80, 81);
     padding-left: 3px;
+    padding-top: 5px;
     border-left:7px solid #66A5Ad ;
+}
+
+.popup{
+    visibility: hidden;
+    background-color: black;
+    padding: 0 2px 0 2px;
+
+}
+
+.file:hover .popup{
+    transition-delay: 500ms;
+    visibility: visible;
+    position: absolute;
+    z-index: 5;
+    left:16%;
+}
+
+.fileActive:hover .popup{
+    transition-delay: 500ms;
+    visibility: visible;
+    position: absolute;
+    z-index: 5;
+    left:16%;
 }
 
 /* Right area: edit file*/
@@ -124,8 +154,10 @@ body, html{
 
 #date{
     width: 33.33%;
+    height: 4vh;
     cursor: default;
     color: white;
+    border-left: white solid 1px;
 }
 
 #file-name{
@@ -133,6 +165,8 @@ body, html{
     height: 4vh;
     overflow: auto;
     color: white;
+    padding: 0 5px 0 5px;
+    border-left: white solid 1px;
 }
 
 #customTxt{
@@ -141,6 +175,8 @@ body, html{
     overflow: auto;
     text-align: left;
     color: white;
+    padding: 0 5px 0 5px;
+    border-left: white solid 1px;
 }
 
 

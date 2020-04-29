@@ -1,5 +1,5 @@
 const {statSync, readFileSync} = require('fs');
-const {basename} = require('path')
+const {basename} = require('path');
 
 function createElement(innerText='', tag, className='', id=''){
     let element = document.createElement(tag);
@@ -15,7 +15,7 @@ function createElement(innerText='', tag, className='', id=''){
 function retrieveBirthtime(path){
     let date =  statSync(path);
     let stringDate = String(date.birthtime);
-    let bdate = stringDate.slice(0,24)
+    let bdate = stringDate.slice(0,24);
     let dateBox = document.querySelector('#date');
     dateBox.innerHTML=bdate;
 }
