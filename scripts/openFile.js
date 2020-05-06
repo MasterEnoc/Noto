@@ -1,10 +1,9 @@
-const {ipcRenderer} = require('electron');
+
 const {readdirSync, statSync} = require('fs');
 const {sep} = require('path');
 const {retrieveBirthtime, createElement, retrieveName, retrieveReminder, changeWindowName} = require('./scripts/generalFunctions');
 
 ipcRenderer.on('load-file', (event, data, file)=>{
-
     let classes = ['file', 'fileActive'];
     for (element of classes){
 	let oldFiles = Array.from(document.getElementsByClassName(element));
@@ -32,7 +31,6 @@ ipcRenderer.on('load-file', (event, data, file)=>{
 });
 
 ipcRenderer.on('load-folder', (event, folder)=>{
-
     let classes = ['file', 'fileActive'];
     
     for (element of classes){
@@ -43,7 +41,6 @@ ipcRenderer.on('load-folder', (event, folder)=>{
             file.remove();
 	    });
     }
-    
     let fileBrowser = document.querySelector('#fb-files');
     let files = readdirSync(folder);
     files.map((file) => {

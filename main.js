@@ -1,5 +1,5 @@
 const { BrowserWindow, app, Menu, ipcMain} = require('electron');
-const {openFile, openFolder, saveAsFile, emptyJson, saveFile, emptyThisReminder, remindersToTxt} = require('./scripts/menuFunctions');
+const {openFile, openFolder, saveAsFile, emptyJson, saveFile, emptyThisReminder, remindersToTxt, shrinkBar} = require('./scripts/menuFunctions');
 const {stat, writeFile, readFileSync} = require('fs');
 
 global.win;
@@ -43,7 +43,8 @@ const menu = [
         label: '&Settings', submenu: [
             { label: 'Quit', role: 'quit' },
             { label: 'Reload Noto', role: 'reload' },
-            { label: 'Dev Tools', role: 'toggleDevTools' }
+            { label: 'Dev Tools', role: 'toggleDevTools' },
+            { label: 'Toggle file browser',click: ()=>{shrinkBar();}, accelerator: 'Ctrl+b'}
         ]
     },
     { label: '&Reminders', submenu: [

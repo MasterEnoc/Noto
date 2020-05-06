@@ -112,6 +112,10 @@ async function remindersToTxt(){
     }
 }
 
+function shrinkBar(){
+    win.webContents.send('shrink-bar');
+}
+
 module.exports = {
     'openFile':openFile,
     'openFolder':openFolder,
@@ -119,5 +123,15 @@ module.exports = {
     'saveFile':saveFile,
     'emptyJson':emptyJson,
     'emptyThisReminder':emptyThisReminder,
-    'remindersToTxt':remindersToTxt
+    'remindersToTxt':remindersToTxt,
+    'shrinkBar':shrinkBar
 };
+
+
+
+
+
+
+
+
+

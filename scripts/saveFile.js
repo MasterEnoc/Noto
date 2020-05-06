@@ -9,8 +9,8 @@ ipcRenderer.on('request-text', (event)=> {
     let fileName = fileBox.innerText;
 
     event.sender.send('got-text', data, reminderData, fileName);
-})
+});
 
 ipcRenderer.on('filename-error', ()=>{
     alert("The file's name can only contain the following characters: \n A-Z \n a-z \n 0-9 \n -");
-})
+});
