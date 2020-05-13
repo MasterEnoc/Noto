@@ -22,10 +22,10 @@ try {
 const menu = [
     {
         label: '&File', submenu: [
-            {label: '&Open File', click: openFile, accelerator:'Ctrl+o'},
-            {label: 'O&pen Folder', click: openFolder, accelerator:'Ctrl+Shift+o'},
-            {label: '&Save As', click: saveAsFile, accelerator: 'Ctrl+Shift+s'},
-            {label: 'S&ave', click: saveFile, accelerator:'Ctrl+s'}
+            {label: '&Open File', click:()=>{openFile();}, accelerator:'Ctrl+o'},
+            {label: 'O&pen Folder', click: ()=>{openFolder();}, accelerator:'Ctrl+Shift+o'},
+            {label: '&Save As', click: ()=>{saveAsFile();}, accelerator: 'Ctrl+Shift+s'},
+            {label: 'S&ave', click: ()=>{saveFile();}, accelerator:'Ctrl+s'}
         ]
     },
     { label: '&Edit', submenu:[
@@ -44,13 +44,13 @@ const menu = [
             { label: 'Quit', role: 'quit' },
             { label: 'Reload Noto', role: 'reload' },
             { label: 'Dev Tools', role: 'toggleDevTools' },
-            { label: 'Toggle file browser',click: ()=>{shrinkBar();}, accelerator: 'Ctrl+b'}
+            { label: 'Toggle file browser',click: ()=>{win.webContents.send('shrink-bar');}, accelerator: 'Ctrl+b'}
         ]
     },
     { label: '&Reminders', submenu: [
-        {label: 'Empty reminders', click:emptyJson},
-        {label:'Empty this reminder', click:emptyThisReminder},
-        {label:'Reminders to txt', click:remindersToTxt}
+        {label: 'Empty reminders', click:()=>{emptyJson();}},
+        {label:'Empty this reminder', click:()=>{emptyThisReminder();}},
+        {label:'Reminders to txt', click:()=>{remindersToTxt();}}
         ]
     }
 ];

@@ -37,23 +37,24 @@ function openFolder(){
 }
 
 // waits the text data from saveFile.js
-async function saveAsFile(){
-    let file = await dialog.showSaveDialog();
-    if (!file.canceled){
-        if (String(basename(file.filePath)).match(/[^\w._-]/)){
-            win.webContents.send('filename-error');
-        } else {
-            win.webContents.send('request-text');
-            ipcMain.once('got-text', (event, value, reminderData)=> {
-                global.reminders[basename(file.filePath)] = reminderData;
-                writeFile(file.filePath, value, (err)=>{});
+function saveAsFile(){
+    win.webContents.send('request-text');
+    ipcMain.once('got-text', (event, value, reminderData, fileName)=> {
+        let file = dialog.showSaveDialogSync(global.win, {defaultPath:fileName});
+        if (file){
+            if (String(basename(file)).match(/[^\w._-]/)){
+                win.webContents.send('filename-error');
+            } else {
+                console.log(file);
+                global.reminders[basename(file)] = reminderData;
+                writeFile(file, value, (err)=>{console.log(err);});
                 writeFile('reminders.json',JSON.stringify(global.reminders), (err)=>{});
-                win.webContents.send('load-file', value,file.filePath);
-            });
-            global.currentPath=file.filePath;
-            global.folderPath=dirname(file.filePath);
-        }
-    }
+                win.webContents.send('load-file', value,file);
+                global.currentPath=file;
+                global.folderPath=dirname(file);
+            }
+        }        
+    });
 }
 
 function saveFile(){
@@ -78,6 +79,7 @@ function saveFile(){
         saveAsFile();
     }
 }
+
 //
 
 function emptyJson(){
@@ -92,7 +94,7 @@ function emptyThisReminder(){
         writeFileSync('reminders.json', JSON.stringify(json));
         global.reminders = json;
     } catch (error) {
-           
+        
     }
 }
 
@@ -104,8 +106,8 @@ async function remindersToTxt(){
             throw 'Dialog canceled';
         }
         let entries = Object.entries(json);
-        for (let [entrie, reminder] of entries){
-            writeFile(path.filePaths[0]+sep+'reminder.txt', `${entrie}:${reminder}\n`, {flag:'a'}, (err)=>{});
+        for (let [entry, reminder] of entries){
+            writeFile(path.filePaths[0]+sep+'reminder.txt', `${entry}:${reminder}\n`, {flag:'a'}, (err)=>{});
         }
     } catch (error) {
         console.error(error);
@@ -126,12 +128,3 @@ module.exports = {
     'remindersToTxt':remindersToTxt,
     'shrinkBar':shrinkBar
 };
-
-
-
-
-
-
-
-
-

@@ -8,9 +8,9 @@ ipcRenderer.on('load-file', (event, data, file)=>{
     for (element of classes){
 	let oldFiles = Array.from(document.getElementsByClassName(element));
 
-	oldFiles.map((file)=>{
+	    oldFiles.map((file)=>{
             file.remove();
-	});
+	    });
     }
     
     let textArea = document.querySelector('#editor');

@@ -5,6 +5,10 @@ let imageMenu = document.querySelector('#browser-img');
 imageMenu.addEventListener('click',()=>{shrinkBar();});
 
 ipcRenderer.on('shrink-bar', ()=>{
+    shrinkBar();
+});
+
+function shrinkBar(){
     let img = document.querySelector('#files-img');
     let fileBrowser =  document.querySelector('#file-browser');
     let title = document.querySelector('#browser-name');
@@ -24,7 +28,7 @@ ipcRenderer.on('shrink-bar', ()=>{
         title.setAttribute('hidden', '');
         img.className = 'activeImg';
     }
-});
+}
 // Files handling event
 let fileItems = document.querySelector('#fb-files');
 fileItems.addEventListener('click', (event) => {
@@ -47,19 +51,17 @@ fileItems.addEventListener('click',(event)=>{
     if (event.target.id){
         if (event.target.id.match(/^\//)){
             
-            let path = event.target.id;
-            let data = readFileSync(path);
             let editor = document.querySelector('#editor');
-            editor.innerText = data;
-            ipcRenderer.send('change-currentPath', path);
+            editor.innerText = readFileSync(event.target.id);
+            ipcRenderer.send('change-currentEvent.Target.Id', event.target.id);
 
-            retrieveBirthtime(path);
+            retrieveBirthtime(event.target.id);
 
-            retrieveName(path);
+            retrieveName(event.target.id);
 
-            retrieveReminder(path);
+            retrieveReminder(event.target.id);
 
-            changeWindowName(path);
+            changeWindowName(event.target.id);
             
         }
     }
