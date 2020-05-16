@@ -16,7 +16,7 @@ stat('./reminders.json',(err)=> {
 try {
     global.reminders = JSON.parse(readFileSync('reminders.json'));
 } catch (error) {
-    
+
 }
 
 const menu = [

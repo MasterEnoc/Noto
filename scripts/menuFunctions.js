@@ -18,7 +18,7 @@ function openFile(){
         global.currentPath=file[0];
         global.folderPath=dirname(file[0]);
     }
-} 
+}
 
 // sends filepaths to openFile.js
 function openFolder(){
@@ -29,6 +29,7 @@ function openFolder(){
         ],
         properties: ['openDirectory']
     });
+
 
     if (folder){
         win.webContents.send('load-folder', folder[0]);
@@ -53,7 +54,7 @@ function saveAsFile(){
                 global.currentPath=file;
                 global.folderPath=dirname(file);
             }
-        }        
+        }
     });
 }
 
@@ -63,12 +64,12 @@ function saveFile(){
         ipcMain.once('got-text', (event, value, reminderData, fileName)=>{
             global.reminders[basename(global.currentPath)] = reminderData;
             if (basename(global.currentPath)==fileName){
-                writeFile(global.currentPath, value, (err)=> {});  
+                writeFile(global.currentPath, value, (err)=> {});
             } else {
                 if (fileName.match(/[^\w.-]/)){
                     win.webContents.send('filename-error');
                 } else {
-                    writeFile(global.folderPath+sep+fileName, value, (err)=> {});  
+                    writeFile(global.folderPath+sep+fileName, value, (err)=> {});
                     win.webContents.send('load-folder', global.folderPath);
                 }
             }
@@ -93,8 +94,9 @@ function emptyThisReminder(){
         delete json[basename(global.currentPath)];
         writeFileSync('reminders.json', JSON.stringify(json));
         global.reminders = json;
+        win.webContents.send('clear-reminder');
     } catch (error) {
-        
+
     }
 }
 

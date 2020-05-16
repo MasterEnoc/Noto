@@ -27,12 +27,16 @@ function retrieveName(path){
     return name;
 }
 
-function retrieveReminder(path){
+function retrieveReminder(path, option=1){
     let reminderData = document.querySelector('#customTxt');
-    let jsonReminder = JSON.parse(readFileSync('reminders.json'));
+    if (option===1){
+        let jsonReminder = JSON.parse(readFileSync('reminders.json'));
 
-    if (jsonReminder.hasOwnProperty(basename(path))){
-        reminderData.innerHTML = jsonReminder[basename(path)];
+        if (jsonReminder.hasOwnProperty(basename(path))){
+            reminderData.innerHTML = jsonReminder[basename(path)];
+        } else {
+            reminderData.innerHTML = '';
+        }
     } else {
         reminderData.innerHTML = '';
     }

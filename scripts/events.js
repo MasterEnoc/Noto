@@ -14,7 +14,7 @@ function shrinkBar(){
     let title = document.querySelector('#browser-name');
     let righ_title = document.querySelector('#file-area');
     let editor = document.querySelector('#editor');
-    
+
     if (img.className === 'activeImg'){
         fileBrowser.style.width = '15vw';
         righ_title.style.width = '85vw';
@@ -33,7 +33,7 @@ function shrinkBar(){
 let fileItems = document.querySelector('#fb-files');
 fileItems.addEventListener('click', (event) => {
     if (event.target.className==='file' || event.target.className==='fileActive'){
-    
+
         let files = Array.from(document.getElementsByClassName('fileActive'));
         files.map((element) => {
             if (element.className === 'fileActive'){
@@ -47,13 +47,13 @@ fileItems.addEventListener('click', (event) => {
     }
 });
 // Loads every path
-fileItems.addEventListener('click',(event)=>{
+fileItems.addEventListener('click', (event)=>{
     if (event.target.id){
         if (event.target.id.match(/^\//)){
-            
+
             let editor = document.querySelector('#editor');
             editor.innerText = readFileSync(event.target.id);
-            ipcRenderer.send('change-currentEvent.Target.Id', event.target.id);
+            ipcRenderer.send('change-currentPath', event.target.id);
 
             retrieveBirthtime(event.target.id);
 
@@ -62,7 +62,7 @@ fileItems.addEventListener('click',(event)=>{
             retrieveReminder(event.target.id);
 
             changeWindowName(event.target.id);
-            
+
         }
     }
 });

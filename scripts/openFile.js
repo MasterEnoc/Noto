@@ -12,9 +12,9 @@ ipcRenderer.on('load-file', (event, data, file)=>{
             file.remove();
 	    });
     }
-    
+
     let textArea = document.querySelector('#editor');
-    textArea.innerText = data; 
+    textArea.innerText = data;
 
     let name = retrieveName(file);
 
@@ -32,9 +32,9 @@ ipcRenderer.on('load-file', (event, data, file)=>{
 
 ipcRenderer.on('load-folder', (event, folder)=>{
     let classes = ['file', 'fileActive'];
-    
+
     for (element of classes){
-        
+
 	    let oldFiles = Array.from(document.getElementsByClassName(element));
 
 	    oldFiles.map((file)=>{
@@ -51,4 +51,8 @@ ipcRenderer.on('load-folder', (event, folder)=>{
             fileBrowser.appendChild(element);
         }
     });
+});
+
+ipcRenderer.on('clear-reminder', ()=>{
+    retrieveReminder(null, null);
 });
