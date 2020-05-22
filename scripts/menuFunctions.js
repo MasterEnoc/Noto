@@ -1,6 +1,8 @@
 const {dialog, ipcMain} = require('electron');
 const {readFileSync, writeFile, writeFileSync} = require('fs');
 const {basename, dirname, sep} = require('path');
+const {retrieveBirthtime, retrieveReminder, createFileEntry} = require('./generalFunctions');
+
 
 // sends filepath to openFile.js
 function openFile(){
@@ -13,8 +15,10 @@ function openFile(){
     });
 
     if (file){
-        let data = readFileSync(file[0]).toString();
-        win.webContents.send('load-file', data, file[0]);
+
+        createFileEntry(file[0]);
+
+        win.webContents.send('load-file', global.files[basename(file[0])].data , file[0], global.files[basename(file[0])].birthtime,global.files[basename(file[0])].reminder);
         global.currentPath=file[0];
         global.folderPath=dirname(file[0]);
     }
@@ -46,8 +50,6 @@ function saveAsFile(){
             if (String(basename(file)).match(/[^\w._-]/)){
                 win.webContents.send('filename-error');
             } else {
-                console.log(file);
-                global.reminders[basename(file)] = reminderData;
                 writeFile(file, value, (err)=>{console.log(err);});
                 writeFile('reminders.json',JSON.stringify(global.reminders), (err)=>{});
                 win.webContents.send('load-file', value,file);
@@ -62,7 +64,6 @@ function saveFile(){
     if (global.currentPath){
         win.webContents.send('request-text');
         ipcMain.once('got-text', (event, value, reminderData, fileName)=>{
-            global.reminders[basename(global.currentPath)] = reminderData;
             if (basename(global.currentPath)==fileName){
                 writeFile(global.currentPath, value, (err)=> {});
             } else {

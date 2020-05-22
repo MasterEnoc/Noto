@@ -6,6 +6,7 @@ global.win;
 global.currentPath = '';
 global.reminders = {};
 global.folderPath= '';
+global.files={};
 
 stat('./reminders.json',(err)=> {
     if (err){

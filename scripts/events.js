@@ -29,6 +29,7 @@ function shrinkBar(){
         img.className = 'activeImg';
     }
 }
+/*
 // Files handling event
 let fileItems = document.querySelector('#fb-files');
 fileItems.addEventListener('click', (event) => {
@@ -66,3 +67,4 @@ fileItems.addEventListener('click', (event)=>{
         }
     }
 });
+*/
