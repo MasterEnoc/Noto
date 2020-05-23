@@ -8,7 +8,10 @@ ipcRenderer.on('request-text', (event)=> {
     let fileBox = document.querySelector('#file-name');
     let fileName = fileBox.innerText;
 
-    event.sender.send('got-text', data, reminderData, fileName);
+    let birthBox = document.querySelector('#date');
+    let date= birthBox.innerHTML;
+
+    event.sender.send('got-text', data, reminderData, fileName, date);
 });
 
 ipcRenderer.on('filename-error', ()=>{

@@ -1,4 +1,4 @@
-const {statSync, readFileSync} = require('fs');
+const {statSync, readFileSync, writeFile, writeFileSync} = require('fs');
 const {basename} = require('path');
 
 function createFileEntry(path){
@@ -18,7 +18,14 @@ function retrieveBirthtime(path){
 }
 
 function retrieveReminder(path, option=1){
-    let jsonReminder = JSON.parse(readFileSync('reminders.json'));
+    var jsonReminder;
+
+    try {
+    jsonReminder = JSON.parse(readFileSync('reminders.json'));
+    } catch (err) {
+        return '';
+    }
+
     if (jsonReminder.hasOwnProperty(basename(path))){
         return jsonReminder[basename(path)];
     } else {
@@ -27,8 +34,22 @@ function retrieveReminder(path, option=1){
 
 }
 
+function saveReminders(new_reminder, reminder){
+    var jsonReminder;
+    try {
+        jsonReminder = JSON.parse(readFileSync('reminders.json'));
+    } catch (err) {
+        jsonReminder = {};
+    }
+
+    jsonReminder[new_reminder] = reminder;
+
+    writeFileSync('reminders.json',JSON.stringify(jsonReminder), (err)=>{console.log(err);});
+}
+
 module.exports = {
     'retrieveBirthtime':retrieveBirthtime,
     'retrieveReminder':retrieveReminder,
-    'createFileEntry':createFileEntry
+    'createFileEntry':createFileEntry,
+    'saveReminders':saveReminders
 };

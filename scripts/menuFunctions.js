@@ -1,26 +1,36 @@
 const {dialog, ipcMain} = require('electron');
 const {readFileSync, writeFile, writeFileSync} = require('fs');
 const {basename, dirname, sep} = require('path');
-const {retrieveBirthtime, retrieveReminder, createFileEntry} = require('./generalFunctions');
+const {retrieveBirthtime, retrieveReminder, createFileEntry, saveReminders} = require('./generalFunctions');
 
 
 // sends filepath to openFile.js
-function openFile(){
-    let file =  dialog.showOpenDialogSync(global.win,{
-        filters: [
-            {name: 'Documents', extensions: ['txt']},
-            {name: 'All files', extensions: ['*']}
-        ],
-        properties: ['openFile']
-    });
+function openFile(path=''){
+    global.files = {};
+
+    var file;
+    if (!path){
+        let fileArr =  dialog.showOpenDialogSync(global.win,{
+            filters: [
+                {name: 'Documents', extensions: ['txt']},
+                {name: 'All files', extensions: ['*']}
+            ],
+            properties: ['openFile']
+        });
+
+        file = fileArr[0];
+
+    } else {
+        file = path;
+    }
 
     if (file){
 
-        createFileEntry(file[0]);
+        createFileEntry(file);
 
-        win.webContents.send('load-file', global.files[basename(file[0])].data , file[0], global.files[basename(file[0])].birthtime,global.files[basename(file[0])].reminder);
-        global.currentPath=file[0];
-        global.folderPath=dirname(file[0]);
+        win.webContents.send('load-file', global.files[basename(file)].data , file, global.files[basename(file)].birthtime,global.files[basename(file)].reminder);
+        global.currentPath=file;
+        global.folderPath=dirname(file);
     }
 }
 
@@ -44,17 +54,15 @@ function openFolder(){
 // waits the text data from saveFile.js
 function saveAsFile(){
     win.webContents.send('request-text');
-    ipcMain.once('got-text', (event, value, reminderData, fileName)=> {
+    ipcMain.once('got-text', (event, value, reminderData, fileName, date)=> {
         let file = dialog.showSaveDialogSync(global.win, {defaultPath:fileName});
         if (file){
             if (String(basename(file)).match(/[^\w._-]/)){
                 win.webContents.send('filename-error');
             } else {
-                writeFile(file, value, (err)=>{console.log(err);});
-                writeFile('reminders.json',JSON.stringify(global.reminders), (err)=>{});
-                win.webContents.send('load-file', value,file);
-                global.currentPath=file;
-                global.folderPath=dirname(file);
+                writeFileSync(file, value);
+                saveReminders(fileName, reminderData);
+                openFile(file);
             }
         }
     });
@@ -64,6 +72,7 @@ function saveFile(){
     if (global.currentPath){
         win.webContents.send('request-text');
         ipcMain.once('got-text', (event, value, reminderData, fileName)=>{
+            global.reminders[basename(global.currentPath)] = reminderData;
             if (basename(global.currentPath)==fileName){
                 writeFile(global.currentPath, value, (err)=> {});
             } else {
