@@ -2,9 +2,8 @@ const {statSync, readFileSync, writeFile, writeFileSync} = require('fs');
 const {basename} = require('path');
 
 function createFileEntry(path){
-    let data = readFileSync(path);
     global.files[basename(path)] = {};
-    global.files[basename(path)].data = data;
+    global.files[basename(path)].data = readFileSync(path);
     global.files[basename(path)].birthtime = retrieveBirthtime(path);
     global.files[basename(path)].reminder = retrieveReminder(path);
 }
@@ -34,7 +33,7 @@ function retrieveReminder(path, option=1){
 
 }
 
-function saveReminders(new_reminder, reminder){
+function saveReminders(fileName, reminder){
     var jsonReminder;
     try {
         jsonReminder = JSON.parse(readFileSync('reminders.json'));
@@ -42,7 +41,7 @@ function saveReminders(new_reminder, reminder){
         jsonReminder = {};
     }
 
-    jsonReminder[new_reminder] = reminder;
+    jsonReminder[fileName] = reminder;
 
     writeFileSync('reminders.json',JSON.stringify(jsonReminder), (err)=>{console.log(err);});
 }

@@ -2,7 +2,7 @@ const {readdirSync, statSync} = require('fs');
 const {sep, basename} = require('path');
 
 ipcRenderer.on('load-file', (event, data, path, birthtime, reminder)=>{
-    let classes = ['file', 'fileActive'];
+    const classes = ['file', 'fileActive'];
     for (element of classes){
 	    let oldFiles = Array.from(document.getElementsByClassName(element));
 
@@ -32,26 +32,21 @@ ipcRenderer.on('load-file', (event, data, path, birthtime, reminder)=>{
 
 });
 
-ipcRenderer.on('load-folder', (event, folder)=>{
-    let classes = ['file', 'fileActive'];
-
+ipcRenderer.on('load-folder', (event, files, folder )=>{
+    const classes = ['file', 'fileActive'];
     for (element of classes){
-
 	    let oldFiles = Array.from(document.getElementsByClassName(element));
 
 	    oldFiles.map((file)=>{
             file.remove();
 	    });
     }
+
     let fileBrowser = document.querySelector('#fb-files');
-    let files = readdirSync(folder);
     files.map((file) => {
-        let fileStat = statSync(folder+sep+file);
-        if (!fileStat.isDirectory()){
-            let element = createElement(file, 'div', 'file', folder+sep+file);
-            element.appendChild(createElement(file, 'span', 'popup'));
-            fileBrowser.appendChild(element);
-        }
+        let element = createElement(file, 'div', 'file', folder+sep+file);
+        element.appendChild(createElement(file, 'span', 'popup'));
+        fileBrowser.appendChild(element);
     });
 });
 

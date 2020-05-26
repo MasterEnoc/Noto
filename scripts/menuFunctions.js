@@ -1,5 +1,5 @@
 const {dialog, ipcMain} = require('electron');
-const {readFileSync, writeFile, writeFileSync} = require('fs');
+const {readFileSync, writeFile, writeFileSync, readdirSync, statSync} = require('fs');
 const {basename, dirname, sep} = require('path');
 const {retrieveBirthtime, retrieveReminder, createFileEntry, saveReminders} = require('./generalFunctions');
 
@@ -34,8 +34,9 @@ function openFile(path=''){
     }
 }
 
-// sends filepaths to openFile.js
 function openFolder(){
+    global.files = {};
+
     let folder = dialog.showOpenDialogSync(global.win,{
         filters:[
             {name:'Documents', extensions:['txt']},
@@ -44,14 +45,23 @@ function openFolder(){
         properties: ['openDirectory']
     });
 
-
     if (folder){
-        win.webContents.send('load-folder', folder[0]);
         global.folderPath = folder[0];
+
+        let files = readdirSync(folder[0]);
+
+        files.map((file) =>{
+            let fileStat = statSync(global.folderPath+sep+file);
+
+            if (!fileStat.isDirectory()){
+                createFileEntry(global.folderPath+sep+file);
+            }
+        });
+
+        win.webContents.send('load-folder', Object.keys(global.files), global.folderPath);
     }
 }
 
-// waits the text data from saveFile.js
 function saveAsFile(){
     win.webContents.send('request-text');
     ipcMain.once('got-text', (event, value, reminderData, fileName, date)=> {
@@ -72,7 +82,6 @@ function saveFile(){
     if (global.currentPath){
         win.webContents.send('request-text');
         ipcMain.once('got-text', (event, value, reminderData, fileName)=>{
-            global.reminders[basename(global.currentPath)] = reminderData;
             if (basename(global.currentPath)==fileName){
                 writeFile(global.currentPath, value, (err)=> {});
             } else {
@@ -80,10 +89,10 @@ function saveFile(){
                     win.webContents.send('filename-error');
                 } else {
                     writeFile(global.folderPath+sep+fileName, value, (err)=> {});
-                    win.webContents.send('load-folder', global.folderPath);
+ //                   win.webContents.send('load-folder', global.folderPath);
                 }
             }
-            writeFile('reminders.json',JSON.stringify(global.reminders), (err)=>{});
+                saveReminders(fileName, reminderData);
         });
 
     } else {
