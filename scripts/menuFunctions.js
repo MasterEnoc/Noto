@@ -1,7 +1,7 @@
 const {dialog, ipcMain} = require('electron');
 const {readFileSync, writeFile, writeFileSync, readdirSync, statSync} = require('fs');
 const {basename, dirname, sep} = require('path');
-const {retrieveBirthtime, retrieveReminder, createFileEntry, saveReminders} = require('./generalFunctions');
+const {retrieveBirthtime, retrieveReminder, createFileEntry, saveReminders, createFilesEntry} = require('./generalFunctions');
 
 
 // sends filepath to openFile.js
@@ -50,13 +50,7 @@ function openFolder(){
 
         let files = readdirSync(folder[0]);
 
-        files.map((file) =>{
-            let fileStat = statSync(global.folderPath+sep+file);
-
-            if (!fileStat.isDirectory()){
-                createFileEntry(global.folderPath+sep+file);
-            }
-        });
+        createFilesEntry(files);
 
         win.webContents.send('load-folder', Object.keys(global.files), global.folderPath);
     }
@@ -88,8 +82,10 @@ function saveFile(){
                 if (fileName.match(/[^\w.-]/)){
                     win.webContents.send('filename-error');
                 } else {
-                    writeFile(global.folderPath+sep+fileName, value, (err)=> {});
- //                   win.webContents.send('load-folder', global.folderPath);
+                    global.files = {};
+                    writeFileSync(global.folderPath+sep+fileName, value);
+                    createFilesEntry(readdirSync(dirname(global.currentPath)));
+                    win.webContents.send('load-folder', Object.keys(global.files) , global.folderPath);
                 }
             }
                 saveReminders(fileName, reminderData);

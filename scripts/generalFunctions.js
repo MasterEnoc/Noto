@@ -1,5 +1,5 @@
 const {statSync, readFileSync, writeFile, writeFileSync} = require('fs');
-const {basename} = require('path');
+const {basename, sep} = require('path');
 
 function createFileEntry(path){
     global.files[basename(path)] = {};
@@ -8,6 +8,14 @@ function createFileEntry(path){
     global.files[basename(path)].reminder = retrieveReminder(path);
 }
 
+function createFilesEntry(files){
+    files.map((file) =>{
+        let fileStat = statSync(global.folderPath+sep+file);
+        if (!fileStat.isDirectory()){
+            createFileEntry(global.folderPath+sep+file);
+        }
+    });
+}
 
 function retrieveBirthtime(path){
     let date =  statSync(path);
@@ -50,5 +58,6 @@ module.exports = {
     'retrieveBirthtime':retrieveBirthtime,
     'retrieveReminder':retrieveReminder,
     'createFileEntry':createFileEntry,
-    'saveReminders':saveReminders
+    'saveReminders':saveReminders,
+    'createFilesEntry':createFilesEntry,
 };
