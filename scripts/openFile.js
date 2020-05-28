@@ -51,7 +51,9 @@ ipcRenderer.on('load-folder', (event, files, folder )=>{
 });
 
 ipcRenderer.on('clear-reminder', ()=>{
-//    retrieveReminder(null, null);
+    let reminderBox = document.querySelector('#customTxt');
+
+    reminderBox.innerHTML = '';
 });
 
 function createElement(innerText='', tag, className='', id=''){

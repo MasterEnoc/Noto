@@ -4,7 +4,6 @@ const {menu} = require('./menu.js');
 
 global.win;
 global.currentPath = '';
-global.reminders = {};
 global.folderPath= '';
 global.files={};
 
