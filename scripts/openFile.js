@@ -1,6 +1,7 @@
 const {readdirSync, statSync} = require('fs');
 const {sep, basename} = require('path');
 
+
 ipcRenderer.on('load-file', (event, data, path, birthtime, reminder)=>{
     const classes = ['file', 'fileActive'];
     for (element of classes){
@@ -67,7 +68,4 @@ function createElement(innerText='', tag, className='', id=''){
     return element;
 }
 
-function changeWindowName(path){
-    let windowName = document.querySelector('title');
-    windowName.innerHTML = `Noto - ${basename(path)}`;
-}
+

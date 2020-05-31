@@ -1,7 +1,7 @@
 const {dialog, ipcMain} = require('electron');
 const {readFileSync, writeFile, writeFileSync, readdirSync, statSync} = require('fs');
 const {basename, dirname, sep} = require('path');
-const {retrieveBirthtime, retrieveReminder, createFileEntry, saveReminders, createFilesEntry} = require('./generalFunctions');
+const {retrieveBirthtime, retrieveReminder, createFileEntry, saveReminders, createFileEntryWithData, createEntriesFromPaths} = require('./generalFunctions');
 
 
 // sends filepath to openFile.js
@@ -50,7 +50,7 @@ function openFolder(){
 
         let files = readdirSync(folder[0]);
 
-        createFilesEntry(files);
+        createEntriesFromPaths(files);
 
         win.webContents.send('load-folder', Object.keys(global.files), global.folderPath);
     }
@@ -58,14 +58,14 @@ function openFolder(){
 
 function saveAsFile(){
     win.webContents.send('request-text');
-    ipcMain.once('got-text', (event, value, reminderData, fileName, date)=> {
+    ipcMain.once('got-text', (event, fileName, data, reminder,  date)=> {
         let file = dialog.showSaveDialogSync(global.win, {defaultPath:fileName});
         if (file){
             if (String(basename(file)).match(/[^\w._-]/)){
                 win.webContents.send('filename-error');
             } else {
-                writeFileSync(file, value);
-                saveReminders(fileName, reminderData);
+                writeFileSync(file, data);
+                saveReminders(fileName, reminder);
                 openFile(file);
             }
         }
@@ -75,20 +75,22 @@ function saveAsFile(){
 function saveFile(){
     if (global.currentPath){
         win.webContents.send('request-text');
-        ipcMain.once('got-text', (event, value, reminderData, fileName)=>{
+        ipcMain.once('got-text', (event, fileName, data, reminder, date)=>{
             if (basename(global.currentPath)==fileName){
-                writeFile(global.currentPath, value, (err)=> {});
+                writeFile(global.currentPath, data, ()=>{});
+                createFileEntryWithData(fileName, data, reminder, date);
+                saveReminders(fileName, reminder);
             } else {
                 if (fileName.match(/[^\w.-]/)){
                     win.webContents.send('filename-error');
                 } else {
                     global.files = {};
-                    writeFileSync(global.folderPath+sep+fileName, value);
-                    createFilesEntry(readdirSync(dirname(global.currentPath)));
+                    writeFileSync(global.folderPath+sep+fileName, data);
+                    createEntriesFromPaths(readdirSync(dirname(global.currentPath)));
                     win.webContents.send('load-folder', Object.keys(global.files) , global.folderPath);
+                    saveReminders(fileName, reminder);
                 }
             }
-                saveReminders(fileName, reminderData);
         });
 
     } else {

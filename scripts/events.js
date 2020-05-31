@@ -1,5 +1,6 @@
 const {readFileSync} = require('fs');
-const {ipcRenderer} = require('electron');
+const {ipcRenderer, remote} = require('electron');
+const {changeWindowName} = require('./scripts/generalFunctions.js');
 // Animation Events
 let imageMenu = document.querySelector('#browser-img');
 imageMenu.addEventListener('click',()=>{shrinkBar();});
@@ -29,8 +30,9 @@ function shrinkBar(){
         img.className = 'activeImg';
     }
 }
-/*
+
 // Files handling event
+
 let fileItems = document.querySelector('#fb-files');
 fileItems.addEventListener('click', (event) => {
     if (event.target.className==='file' || event.target.className==='fileActive'){
@@ -47,24 +49,29 @@ fileItems.addEventListener('click', (event) => {
         }
     }
 });
-// Loads every path
+
 fileItems.addEventListener('click', (event)=>{
     if (event.target.id){
         if (event.target.id.match(/^\//)){
 
+            let files = remote.getGlobal('files');
+
             let editor = document.querySelector('#editor');
-            editor.innerText = readFileSync(event.target.id);
-            ipcRenderer.send('change-currentPath', event.target.id);
+            editor.innerText = files[basename(event.target.id)].data;
 
-            retrieveBirthtime(event.target.id);
+            let nameBox = document.querySelector('#file-name');
+            nameBox.innerHTML = basename(event.target.id);
 
-            retrieveName(event.target.id);
+            let birthBox = document.querySelector('#date');
+            birthBox.innerHTML = files[basename(event.target.id)].birthtime;
 
-            retrieveReminder(event.target.id);
+            let remainderBox = document.querySelector('#customTxt');
+            remainderBox.innerHTML = files[basename(event.target.id)].reminder;
 
             changeWindowName(event.target.id);
 
+            ipcRenderer.send('change-currentPath', event.target.id);
         }
     }
 });
-*/
+

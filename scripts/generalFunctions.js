@@ -8,13 +8,20 @@ function createFileEntry(path){
     global.files[basename(path)].reminder = retrieveReminder(path);
 }
 
-function createFilesEntry(files){
+function createEntriesFromPaths(files){
     files.map((file) =>{
         let fileStat = statSync(global.folderPath+sep+file);
         if (!fileStat.isDirectory()){
             createFileEntry(global.folderPath+sep+file);
         }
     });
+}
+
+function createFileEntryWithData(fileName, data, reminder, birthTime){
+    global.files[fileName] = {};
+    global.files[fileName].data = data;
+    global.files[fileName].birthtime = birthTime;
+    global.files[fileName].reminder = reminder;
 }
 
 function retrieveBirthtime(path){
@@ -24,7 +31,7 @@ function retrieveBirthtime(path){
     return bdate;
 }
 
-function retrieveReminder(path, option=1){
+function retrieveReminder(path){
     var jsonReminder;
 
     try {
@@ -54,10 +61,17 @@ function saveReminders(fileName, reminder){
     writeFileSync('reminders.json',JSON.stringify(jsonReminder), (err)=>{console.log(err);});
 }
 
+function changeWindowName(path){
+    let windowName = document.querySelector('title');
+    windowName.innerHTML = `Noto - ${basename(path)}`;
+}
+
 module.exports = {
     'retrieveBirthtime':retrieveBirthtime,
     'retrieveReminder':retrieveReminder,
     'createFileEntry':createFileEntry,
     'saveReminders':saveReminders,
-    'createFilesEntry':createFilesEntry,
+    'createEntriesFromPaths':createEntriesFromPaths,
+    'createFileEntryWithData':createFileEntryWithData,
+    'changeWindowName':changeWindowName
 };

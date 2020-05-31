@@ -1,9 +1,9 @@
 ipcRenderer.on('request-text', (event)=> {
-    let text = document.querySelector('#editor');
-    let data = text.innerText;
+    let textBox = document.querySelector('#editor');
+    let data = textBox.innerText;
 
-    let reminder = document.querySelector('#customTxt');
-    let reminderData = reminder.innerText;
+    let reminderBox = document.querySelector('#customTxt');
+    let reminder = reminderBox.innerText;
 
     let fileBox = document.querySelector('#file-name');
     let fileName = fileBox.innerText;
@@ -11,7 +11,7 @@ ipcRenderer.on('request-text', (event)=> {
     let birthBox = document.querySelector('#date');
     let date= birthBox.innerHTML;
 
-    event.sender.send('got-text', data, reminderData, fileName, date);
+    event.sender.send('got-text',fileName, data, reminder, date);
 });
 
 ipcRenderer.on('filename-error', ()=>{
