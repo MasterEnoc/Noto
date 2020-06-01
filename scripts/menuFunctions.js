@@ -5,26 +5,20 @@ const {retrieveBirthtime, retrieveReminder, createFileEntry, saveReminders, crea
 
 
 // sends filepath to openFile.js
-function openFile(path=''){
+function openFile(){
     global.files = {};
 
-    var file;
-    if (!path){
-        let fileArr =  dialog.showOpenDialogSync(global.win,{
-            filters: [
-                {name: 'Documents', extensions: ['txt']},
-                {name: 'All files', extensions: ['*']}
-            ],
-            properties: ['openFile']
-        });
+    let path =  dialog.showOpenDialogSync(global.win,{
+        filters: [
+            {name: 'Documents', extensions: ['txt']},
+            {name: 'All files', extensions: ['*']}
+        ],
+        properties: ['openFile']
+    });
 
-        file = fileArr[0];
+    if (path) {
 
-    } else {
-        file = path;
-    }
-
-    if (file){
+        let file = path[0];
 
         createFileEntry(file);
 
@@ -32,6 +26,16 @@ function openFile(path=''){
         global.currentPath=file;
         global.folderPath=dirname(file);
     }
+}
+
+function openFileWithPath(path){
+    global.files = {};
+
+    createFileEntry(path);
+
+    win.webContents.send('load-file', global.files[basename(path)].data , path, global.files[basename(path)].birthtime,global.files[basename(path)].reminder);
+    global.currentPath=path;
+    global.folderPath=dirname(path);
 }
 
 function openFolder(){
@@ -66,7 +70,7 @@ function saveAsFile(){
             } else {
                 writeFileSync(file, data);
                 saveReminders(fileName, reminder);
-                openFile(file);
+                openFileWithPath(file);
             }
         }
     });

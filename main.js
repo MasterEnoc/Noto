@@ -38,9 +38,10 @@ app.on('ready', () => {
         global.win.show();
     });
 
-    global.win.on('closed', () => {
-        global.win = null;
-    });
+});
+
+app.on('window-all-closed', ()=>{
+    app.quit();
 });
 
 ipcMain.on('change-currentPath', (event, path) => {
