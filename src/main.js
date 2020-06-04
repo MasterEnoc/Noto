@@ -1,6 +1,7 @@
 const { BrowserWindow, app, Menu, ipcMain} = require('electron');
 const {stat, writeFile, readFileSync} = require('fs');
 const {menu} = require('./menu.js');
+const {basename} = require('path');
 
 global.win;
 global.currentPath = '';
@@ -12,12 +13,6 @@ stat('./reminders.json',(err)=> {
         writeFile('./reminders.json','', ()=>'');
     }
 });
-
-try {
-    global.reminders = JSON.parse(readFileSync('reminders.json'));
-} catch (error) {
-
-}
 
 Menu.setApplicationMenu(Menu.buildFromTemplate(menu));
 
@@ -32,18 +27,14 @@ app.on('ready', () => {
         }
     });
 
-    global.win.loadFile('main.html');
+    global.win.loadFile('./src/main.html');
 
     global.win.on('ready-to-show', () => {
         global.win.show();
     });
-
-});
-
-app.on('window-all-closed', ()=>{
-    app.quit();
 });
 
 ipcMain.on('change-currentPath', (event, path) => {
     global.currentPath = path;
 });
+

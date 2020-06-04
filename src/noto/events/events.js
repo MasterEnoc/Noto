@@ -1,6 +1,7 @@
 const {readFileSync} = require('fs');
-const {ipcRenderer, remote} = require('electron');
-const {changeWindowName} = require('./scripts/generalFunctions.js');
+const {remote} = require('electron');
+const {app} = require('electron').remote;
+
 // Animation Events
 let imageMenu = document.querySelector('#browser-img');
 imageMenu.addEventListener('click',()=>{shrinkBar();});
@@ -34,16 +35,15 @@ function shrinkBar(){
 // Files handling event
 
 let fileItems = document.querySelector('#fb-files');
+
 fileItems.addEventListener('click', (event) => {
     if (event.target.className==='file' || event.target.className==='fileActive'){
-
         let files = Array.from(document.getElementsByClassName('fileActive'));
         files.map((element) => {
             if (element.className === 'fileActive'){
                 element.className = 'file';
             }
         });
-
         if (event.target.className === 'file'){
             event.target.className = 'fileActive';
         }
@@ -74,4 +74,3 @@ fileItems.addEventListener('click', (event)=>{
         }
     }
 });
-
