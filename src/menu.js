@@ -1,4 +1,7 @@
-const {openFile, openFolder, saveAsFile, emptyJson, saveFile, emptyThisReminder, remindersToTxt, shrinkBar} = require('./scripts/menuFunctions');
+const {emptyJson, emptyThisReminder, remindersToTxt} = require('./noto/menu/reminders');
+const {openFolder, openFile} = require('./noto/menu/open');
+const {saveFile, saveAsFile} = require('./noto/menu/save');
+const {shrinkBar} = require('./noto/menu/triggers');
 
 const menu = [
     {
@@ -15,17 +18,13 @@ const menu = [
         {label:'Copy', role:'copy'},
         {label:'Paste', role:'paste'},
         {label:'Cut', role:'cut'},
-        {label:'Move left', accelerator:'Ctrl+h'},
-        {label:'Move down', accelerator:'Ctrl+j'},
-        {label:'Move up', accelerator:'Ctrl+k'},
-        {label:'Move right', accelerator:'Ctrl+l'}
     ]},
     {
         label: '&Settings', submenu: [
             { label: 'Quit', role: 'quit' },
             { label: 'Reload Noto', role: 'reload' },
             { label: 'Dev Tools', role: 'toggleDevTools' },
-            { label: 'Toggle file browser',click: ()=>{win.webContents.send('shrink-bar');},
+            { label: 'Toggle file browser',click: ()=>{global.win.webContents.send('shrink-bar');},
               accelerator: 'Ctrl+b'}
         ]
     },

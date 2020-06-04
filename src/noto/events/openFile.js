@@ -1,6 +1,7 @@
+const {ipcRenderer} = require('electron');
 const {readdirSync, statSync} = require('fs');
 const {sep, basename} = require('path');
-
+const {changeWindowName} = require('./noto/utilities');
 
 ipcRenderer.on('load-file', (event, data, path, birthtime, reminder)=>{
     const classes = ['file', 'fileActive'];
