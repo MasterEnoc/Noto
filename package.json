@@ -1,0 +1,20 @@
+{
+  "name": "noto",
+  "version": "1.0.0",
+  "description": "Note editor for general purpose",
+  "main": "./src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "notes",
+    "journal",
+    "editor"
+  ],
+  "author": "Bryan Hernández",
+  "license": "GNU GPLv3",
+  "devDependencies": {
+    "electron": "^7.3.1"
+  },
+  "dependencies": {}
+}

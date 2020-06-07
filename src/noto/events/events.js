@@ -52,7 +52,7 @@ fileItems.addEventListener('click', (event) => {
 
 fileItems.addEventListener('click', (event)=>{
     if (event.target.id){
-        if (event.target.id.match(/^\//)){
+        if (event.target.id.match(/^[/\\]/)){
 
             let files = remote.getGlobal('files');
 
