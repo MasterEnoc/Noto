@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'" content="script-src 'self'">
+    <link rel="stylesheet" href="./rsc/style.css">
+    <title>Noto</title>
+</head>
+<body>
+
+    <div class="layout">
+
+        <section id="file-browser">
+
+            <div id="fb-title" class="border" >
+                <div class="header" id="browser-name">File browser</div>
+                <div class="header" id="browser-img"><img src="./rsc/file.svg" id="files-img"></div>
+            </div>
+
+            <div id="fb-files"></div>
+
+        </section>
+
+        <section id="file-area">
+            <div id="title-bar" class="border">
+
+                <div class="header" id="date"></div>
+                <div class="header" id="file-name" contenteditable="true"></textarea></div>
+                <div class="header" id="customTxt" contenteditable="true"></div>
+
+            </div>
+
+            <div id="editor" contenteditable="true"></div>
+
+        </section>
+
+    </div>
+    <script type="text/javascript" src="./scripts/events.js"></script>
+    <script type="text/javascript" src="./scripts/openFile.js"></script>
+    <script type="text/javascript" src="./scripts/saveFile.js"></script>
+</body>
+</html>
